@@ -1,0 +1,791 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "gotham", sans-serif;
+}
+
+:root {
+    --background: #ffffff;
+    --basictext: #000000;
+    --secondarytext: #4b4b4b;
+    --thirdtext: #171717;
+    --navbarseparator: #cccccc;
+    --yellow: #ffc60b;
+    --red: #ff362f;
+    --imgfilter: 0;
+}
+
+body {
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-color: var(--background);
+    color: var(--basictext);
+}
+
+html{
+    scroll-behavior: smooth;
+    scroll-snap-type: none;
+}
+
+/* ---- THEME BUTTON ---- */
+
+#theme-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+#theme-btn img {
+    height: 30px;
+    width: 30px;
+}
+
+/* ---- OVERLAY ---- */
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+#overlay-img {
+    max-height: 90vh;
+    max-width: 90vw;
+    border-radius: 20px;
+    object-fit: contain;
+}
+
+.overlay-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+/* ---- NAVIGATION BAR ---- */
+
+.navbar {
+    position: fixed;        /* always fixed, never absolute */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--background);
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    border-bottom: 2px solid var(--navbarseparator);
+    transition: all 0.3s ease;
+}
+
+.navbar-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4rem;
+    height: 70px;
+    transition: height 0.3s ease;
+}
+
+.navbar.scrolled .navbar-content {
+    height: 55px;
+}
+
+.navbar .logo img {
+    height: 45px;       /* smaller than navbar height */
+    width: 45px;
+    object-fit: contain;
+    filter: invert(var(--imgfilter));
+}
+
+.navbar.scrolled .logo img {
+    height: 55px;
+    width: 55px;
+}
+
+.navbar .logo {
+    margin-left: 2.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: "gotham";
+    font-weight: 700;
+    font-size: 2rem;
+    color: var(--basictext);
+}
+
+.navbar .logo img {
+    height: 80px;
+    width: 80px;
+    object-fit: contain;
+    vertical-align: middle;   /* aligns image to the middle of the text line */
+}
+
+.navbar .logo a {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: inherit;
+}
+
+.navbar nav {
+    display: flex;
+    gap: 2rem;
+    transform: translateX(-50%);
+}
+
+.navbar nav a {
+    color: var(--basictext);
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+
+.dropdown > a:hover,
+.navbar nav > a:hover {
+    color: var(--yellow);
+    transition: color 0.3s ease;
+}
+
+/* ---- DROPDOWN ---- */
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--background);
+    border: 1px solid var(--navbarseparator);
+    border-radius: 8px;
+    padding: 0.5rem 0;
+    min-width: 150px;
+    flex-direction: column;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    
+    /* fade animation */
+    display: flex;          /* always flex instead of none */
+    opacity: 0;             /* starts invisible */
+    pointer-events: none;   /* can't click when hidden */
+    transform: translateY(-8px);  /* starts slightly above */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.dropdown:hover .dropdown-menu {
+    opacity: 1;                 /* fades in */
+    pointer-events: all;        /* clickable when visible */
+    transform: translateY(0);   /* slides down into place */
+}
+
+.dropdown-menu a {
+    padding: 0.75rem 1.5rem;
+    color: var(--basictext);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.dropdown-menu a:hover {
+    background-color: var(--yellow);  /* gold on hover */
+    color: var(--basictext);
+    transition: background-color 0.3s ease;
+}
+
+/* ---- HOME SECTION ---- */
+
+.home {
+    display: flex;          /* puts content and image side by side */
+    align-items: center;    /* vertically centers both */
+    height: 100vh;          /* full screen height */
+    overflow: hidden;
+}
+
+.home-content {
+    flex: 1;                /* takes up all space left of the image */
+    padding-left: 7rem;
+    margin-top: -18rem;
+}
+
+.home-content h1 {
+    font-family: "acier-bat-solid";
+    font-size: 8rem;
+    font-weight: 400;
+    line-height: 1;
+}
+
+/* TRACK is bigger than PIRELLI */
+.home-content h1.big {
+    font-size: 12rem;
+}
+
+.home-content h1.big::after {
+    content: "";
+    position: absolute;
+    bottom: 32rem;
+    left: 7rem;
+    width: 600px;   /* adjust length */
+    height: 4px;    /* adjust thickness */
+    background-color: var(--basictext);
+}
+
+.home-content h3 {
+    font-size: 1.7rem;
+    font-weight: 400;
+    color: var(--secondarytext);
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+#typetrack {
+    font-family: "acier-bat-solid";
+    font-size: 12rem;
+    font-weight: 400;
+}
+
+.bttns {
+    display: flex;
+    gap: 2rem;              /* space between the two buttons */
+}
+
+.bttns a {
+    padding: 1rem 3rem;
+    width: 240px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1.25rem;
+    text-decoration: none;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bttns a:hover {
+    transform: translateY(-4px);        /* lifts up slightly */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.252);  /* adds shadow */
+}
+
+.bttns a:first-child {
+    background-color: var(--yellow);  /* gold button */
+    color: black;
+}
+
+.bttns a:last-child {
+    background-color: var(--red);  /* red button */
+    color: white;
+}
+
+.home-image {
+    flex-shrink: 0;         /* stops the image from shrinking */
+}
+
+.home-image img {
+    width: 42vw;
+    display: block;
+}
+
+/* ---- TEAM SECTION ---- */
+
+.team{
+    display: flex;
+    align-items: center;
+    justify-content: center;    
+    height: 100vh;          
+    overflow: hidden;
+    position: relative;
+}
+
+.team-content{
+    text-align: center;
+    padding-top: 30px;
+}
+
+.team-content h1{
+    font-family: "acier-bat-solid";
+    font-weight: 400;
+    line-height: 1;
+    font-size: 8rem;
+    margin-bottom: 0.5rem;
+}
+
+.team-content h1::after {
+    content: "";
+    position: absolute;
+    bottom: 46rem;
+    left: 39rem;
+    width: 650px;   /* adjust length */
+    height: 4px;    /* adjust thickness */
+    background-color: var(--basictext);
+}
+
+.team-content p{
+    margin-bottom: -1rem;
+    font-size: 13pt;
+    max-width: 100;
+    color: var(--secondarytext);
+}
+
+.team-bttns{
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.team-bttns a {
+    margin-right: -55px;
+    position: relative;
+    transition: transform 0.3s ease, margin 0.3s ease;
+}
+
+.member-name {
+    position: absolute;
+    bottom: 490px;        /* sits at the bottom of the image */
+    left: 58%;
+    transform: translateX(-50%);
+    color: white;
+    font-family: "gotham";
+    font-weight: 700;
+    font-size: 1.6rem;
+    opacity: 0;          /* hidden by default */
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+    text-shadow: 0px 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.member-role {
+    position: absolute;
+    bottom: 440px;        /* sits at the bottom of the image */
+    left: 58%;
+    transform: translateX(-50%);
+    color: rgb(229, 229, 229);
+    font-family: "gotham";
+    font-weight: 100;
+    font-size: 0.95rem;
+    opacity: 0;          /* hidden by default */
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+    text-shadow: 0px 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.team-bttns a img {
+    transition: filter 0.3s ease;
+}
+
+.team-bttns a:hover {
+    transform: translateY(-8px);
+    margin-right: 0;
+    z-index: 1; 
+}
+
+.team-bttns a:last-child:hover {
+    margin-right: 0;
+}
+
+.team-bttns a:hover img {
+    filter: brightness(0.5);  /* darkens the image, lower = darker */
+}
+
+.team-bttns a:hover .member-name {
+    opacity: 1;
+}
+
+.team-bttns a:hover .member-role {
+    opacity: 1;
+}
+
+.team-bttns a:last-child{
+    margin-right: 0;  /* reset on the last one */
+}
+
+.team-bttns a img{
+    width: 350px;        /* adjust this value */
+    height: 550px;       /* adjust this value */
+    object-fit: cover;   /* keeps the image filling the box without stretching */
+    border-radius: 20px; /* keeps the rounded corners */
+    display: block;
+}
+
+.team-left-image{
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);  /* vertically centers it */
+}
+
+.team-right-image{
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* ---- WORK SECTION ---- */
+
+.work{
+    display: flex;
+    
+    justify-content: center;    
+    height: 100vh;          
+    overflow: hidden;
+    position: relative;
+}
+
+.work-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.work-content h1{
+    font-family: "acier-bat-solid";
+    font-weight: 400;
+    line-height: 1;
+    font-size: 6rem;
+    margin-top: 3.5rem;
+}
+
+.work-bg-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: "acier-bat-solid";
+    font-size: 20rem;
+    font-weight: 400;
+    color: var(--basictext);
+    opacity: 0.05;        /* very subtle */
+    white-space: nowrap;
+    pointer-events: none; /* can't accidentally click it */
+    transition: opacity 0.3s ease;
+    z-index: 0;
+}
+
+.work-content h1::after {
+    content: "";
+    position: absolute;
+    bottom: 41rem;
+    left: 44rem;
+    width: 500px;   /* adjust length */
+    height: 4px;    /* adjust thickness */
+    background-color: var(--basictext);
+}
+
+.carousel{
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.carousel-track {
+    width: 400px;
+    position: relative;
+    height: 600px;
+}
+
+.carousel-card {
+    display: none;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.carousel-card.active {
+    display: block;
+    animation: slideIn 0.4s ease forwards;
+}
+
+.carousel-card.exit-left {
+    display: block;
+    animation: slideOutLeft 0.4s ease forwards;
+}
+
+.carousel-card.exit-right {
+    display: block;
+    animation: slideOutRight 0.4s ease forwards;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(60px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-60px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideOutLeft {
+    from { opacity: 1; transform: translateX(0); }
+    to   { opacity: 0; transform: translateX(-60px); }
+}
+
+@keyframes slideOutRight {
+    from { opacity: 1; transform: translateX(0); }
+    to   { opacity: 0; transform: translateX(60px); }
+}
+
+.carousel-card img {
+    width: 100%;
+    display: block;
+}
+
+.card-info {
+    padding: 1rem;
+    text-align: left;
+    position: absolute;
+    bottom: 3rem;
+    left: 0.75rem;
+    right: 0;
+    pad: 1rem;
+}
+
+.card-info h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: black;
+}
+
+.card-info p {
+    font-size: 0.85rem;
+    color: #4b4b4b;
+    margin-top: 0.25rem;
+}
+
+.carousel-btn {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.carousel-btn:hover {
+    background: #ffc60b;
+    border-color: #ffc60b;
+    transform: translateY(-4px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.carousel-btn:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
+}
+
+.fullscreen-btn {
+    position: absolute;
+    top: 410px;
+    right: 30px;
+    background: white;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    width: 35px;
+    height: 35px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+    z-index: 10;
+}
+
+.fullscreen-btn:hover {
+    transform: translateY(-4px);
+}
+
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ddd;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.dot.active {
+    background-color: #ffc60b;
+}
+
+.work-left-image{
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);  /* vertically centers it */
+}
+
+.work-right-image{
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* ---- IDEA SECTION ---- */
+
+.idea {
+    display: flex;          /* puts content and image side by side */
+    align-items: center;    /* vertically centers both */
+    height: 100vh;          /* full screen height */
+    overflow: hidden;
+    position: relative;
+}
+
+.idea-content {
+    flex: 1;                /* takes up all space left of the image */
+    padding-left: 7rem;
+    margin-top: -3rem;
+}
+
+.idea-content h1{
+    font-family: "acier-bat-solid";
+    font-weight: 400;
+    line-height: 1;
+    font-size: 8rem;
+}
+
+.idea-content h1.big{
+    font-size: 12rem;
+}
+
+.idea-content h1.big::after {
+    content: "";
+    position: absolute;
+    bottom: 35rem;
+    left: 7.4rem;
+    width: 650px;   /* adjust length */
+    height: 4px;    /* adjust thickness */
+    background-color: var(--basictext);
+}
+
+.idea-content p {
+    white-space: pre-line;
+    padding-bottom: 2rem;
+    color: var(--secondarytext);
+}
+
+.idea-right-image{
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.idea-bttns {
+    display: flex;
+    gap: 2rem;
+    margin-top: 0rem;
+}
+
+.idea-bttns a {
+    padding: 1rem 3rem;
+    width: 240px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1.25rem;
+    text-decoration: none;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.idea-bttns a:hover {
+    transform: translateY(-4px);        /* lifts up slightly */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.252);  /* adds shadow */
+}
+
+.idea-bttns a:first-child {
+    background-color: var(--yellow);  /* gold button */
+    color: black;
+}
+
+.idea-bttns a:last-child {
+    background-color: var(--red);  /* red button */
+    color: white;
+}
+
+/* ---- DIVIDER ---- */
+
+.divider {
+    width: 100%;
+    height: 12px;
+    background: linear-gradient(to right, #ffc60b, #ff362f, #ffc60b);
+    background-size: 200%;
+    animation: stripe 2s linear infinite;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+@keyframes stripe {
+    from { background-position: 0% }
+    to { background-position: 200% }
+}
+
+@keyframes arrows {
+    0% { opacity: 0; transform: translateX(10px); }
+    50% { opacity: 1; }
+    100% { opacity: 0; transform: translateX(-10px); }
+}
+
+.divider::before {
+    content: "❮ ❮ ❮ ❮ ❮ ❮ ❮ ❮ ❮ ❮ ❮ ❮ ❮ ❮ ❮ ❮ ❮ ❮ ❮ ❮";
+    color: white;
+    font-size: 10px;
+    letter-spacing: 4px;
+    animation: arrows 1.5s ease infinite;
+}
+
+/* ---- SHOW ANIMATION ---- */
+
+.home, .team, .idea, .work {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.home.show, .idea.show, .team.show, .work.show {
+    opacity: 1;
+    transform: translateY(0);
+}
