@@ -221,28 +221,96 @@ const overlayImg = document.getElementById('overlay-img');
 document.querySelectorAll('.fullscreen-btn').forEach(btn => {
     btn.addEventListener('click', function() {
         const img = this.closest('.carousel-card').querySelector('img');
-        const fullscreenSrc = img.getAttribute('data-fullscreen') || img.src;
-        overlayImg.src = fullscreenSrc;
+        const src = img.getAttribute('data-fullscreen') || img.src;
+        const type = img.getAttribute('data-fullscreen-type') || 'image';
+
+        if(type === 'video') {
+            document.getElementById('overlay-img').style.display = 'none';
+            const video = document.getElementById('overlay-video');
+            video.style.display = 'block';
+            video.querySelector('source').src = src;
+            video.load();
+            video.play();
+        } else {
+            document.getElementById('overlay-video').style.display = 'none';
+            const overlayImg = document.getElementById('overlay-img');
+            overlayImg.style.display = 'block';
+            overlayImg.src = src;
+        }
+
         overlay.classList.add('active');
         document.body.style.overflow = 'hidden';
     });
 });
 
+// stop video when closing overlay
 document.querySelector('.overlay-close').addEventListener('click', () => {
     overlay.classList.remove('active');
     document.body.style.overflow = '';
+    const video = document.getElementById('overlay-video');
+    video.pause();
+    video.currentTime = 0;
 });
 
 overlay.addEventListener('click', function(e) {
     if(e.target === overlay) {
         overlay.classList.remove('active');
         document.body.style.overflow = '';
+        const video = document.getElementById('overlay-video');
+        video.pause();
+        video.currentTime = 0;
     }
 });
 
-document.querySelectorAll('[data-work]').forEach(btn => {
-    btn.addEventListener('click', function() {
-        const index = parseInt(this.getAttribute('data-work'));
-        goTo(index);  // uses your existing goTo function
+const intro = document.getElementById("intro");
+const btn = document.getElementById("skip-intro");
+const video = document.getElementById("intro-video");
+
+function hideIntro() {
+    intro.classList.add("hide");
+    if (video) video.pause();
+}
+
+btn.addEventListener("click", hideIntro);
+
+// SCROLL (only once)
+window.addEventListener("scroll", hideIntro, { once: true });
+
+const modal = document.getElementById("contact-modal");
+const openBtns = document.querySelectorAll(".contact-text");
+const closeBtn = document.getElementById("close-btn");
+
+openBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+        modal.classList.add("active");
     });
 });
+
+closeBtn.addEventListener("click", () => {
+    modal.classList.remove("active");
+});
+
+const h1s = document.querySelectorAll(".intro-text h1");
+
+const fonts = [
+    "road-rage",
+    "Georgia",
+    "trash-secret",
+    "dark-graffiti",
+    "airstrike"
+];
+
+setInterval(() => {
+    const font = fonts[Math.floor(Math.random() * fonts.length)];
+
+    h1s.forEach(el => {
+        el.style.fontFamily = font;
+    });
+}, 100);
+
+const cta = document.querySelector(".scroll-cta");
+
+setTimeout(() => {
+    cta.classList.add("show");
+}, 3000); // 3 seconds
+
